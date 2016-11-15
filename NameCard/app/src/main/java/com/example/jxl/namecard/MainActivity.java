@@ -43,6 +43,9 @@ public class MainActivity extends Activity {
         initView();
     }
 
+    /**
+     * do query in database and put the values in a HashSet--person_set
+     */
     private void queryData() {
         person_set = new HashSet<>();
         SQLiteDatabase db = openOrCreateDatabase("people.db",MODE_PRIVATE,null);
@@ -51,9 +54,8 @@ public class MainActivity extends Activity {
             while(cursor.moveToNext()){
                 String name = cursor.getString(cursor.getColumnIndex("name"));
                 String phone_number = cursor.getString(cursor.getColumnIndex("phoneNumber"));
-                Log.d("MainActivity","55 getInfo phone_number = "+ phone_number+", name= " + name);
+                Log.d("MainActivity","queryData() -- name = "+ name+", phone_number= " + phone_number);
                 person_set.add(new Person(name,phone_number));
-                Log.d("MainActivity","57 queryData size = "+ person_set.size());
             }
         }
     }
@@ -95,40 +97,36 @@ public class MainActivity extends Activity {
         contacts.setAdapter(list_adapter);
     }
 
+    /**
+     * create a database named "people"
+     */
     private void createDatabase() {
         DBHelper dbHelper = new DBHelper(mContext,"people.db",null, 1);
         db = dbHelper.getWritableDatabase();
-        Log.d("MainActivity","90 createDatabase succeed!");
-        ContentValues values = new ContentValues();
-        values.put("name","abc");
-        values.put("phoneNumber","123456");
-        db.insert("person",null,values);
-        Log.d("MainActivity","99 createDatabase add data");
-        values.clear();
-        //getInfo();
+        Log.d("MainActivity","createDatabase() -- createDatabase succeed!");
     }
 
     private List<Map<String, Object>> getData(){
         if(person_set != null) {
-//            for(Person p:person_set){
-//                Log.d("MainActivity","104 ");
-//                Map<String,Object> map = new HashMap<>();
-//                map.put("name",p.getName());
-//                map.put("phone",p.getPhoneNumber());
-//                Log.d("MainActivity","109 getData name = " + p.getName()+", phone = "+p.getPhoneNumber());
-//                datalist.add(map);
-//            }
-            Iterator<Person> it = person_set.iterator();
-            Log.d("MainActivity", "Iterator:" + person_set.size());
-            while (it.hasNext()) {
-                Log.d("MainActivity", "hasNext");
-                Map<String, Object> map = new HashMap<>();
-                Person p = it.next();
-                map.put("name", p.getName());
-                map.put("phone", p.getPhoneNumber());
-                Log.d("MainActivity", "109 getData name = " + p.getName() + ", phone = " + p.getPhoneNumber());
+            for(Person p:person_set){
+                Log.d("MainActivity","104 ");
+                Map<String,Object> map = new HashMap<>();
+                map.put("name",p.getName());
+                map.put("phone",p.getPhoneNumber());
+                Log.d("MainActivity","109 getData name = " + p.getName()+", phone = "+p.getPhoneNumber());
                 datalist.add(map);
             }
+//            Iterator<Person> it = person_set.iterator();
+//            Log.d("MainActivity", "Iterator:" + person_set.size());
+//            while (it.hasNext()) {
+//                Log.d("MainActivity", "hasNext");
+//                Map<String, Object> map = new HashMap<>();
+//                Person p = it.next();
+//                map.put("name", p.getName());
+//                map.put("phone", p.getPhoneNumber());
+//                Log.d("MainActivity", "109 getData name = " + p.getName() + ", phone = " + p.getPhoneNumber());
+//                datalist.add(map);
+//            }
         }
         return datalist;
     }

@@ -6,13 +6,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * Created by Administrator on 2016/11/9.
+ * extends SQLiteOpenHelper,override onCreate() and onUpgrade() method
  */
 public class DBHelper extends SQLiteOpenHelper{
+
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
+    /**
+     * create table here,an item includes name and phonenumber
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         String create_table = "create table if not exists person"

@@ -3,7 +3,7 @@ package com.example.jxl.namecard;
 import android.util.Log;
 
 /**
- * Created by Administrator on 2016/11/9.
+ * person should have a name and a phone number
  */
 public class Person {
     private String name;
